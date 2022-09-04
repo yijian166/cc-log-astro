@@ -1,0 +1,9 @@
+---
+import BlogList from "../../../layouts/BlogList.astro";
+import { getPosts } from "../../../services";
+const { book,post } = Astro.params;
+console.log('--book',book,post)
+const pageN = 1
+
+---
+<BlogList page={pageN} book={book} />

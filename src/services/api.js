@@ -1,6 +1,6 @@
 import qs from 'qs';
 import fetch from 'node-fetch';
-export const PaginationLimit = 20;
+export const PaginationLimit = 30;
 export const AdminJwtTokenKey = 'adminJWTToken';
 export const CancelByAbort = 'The user aborted a request.';
 
@@ -28,6 +28,7 @@ export const apiRequestV2 = async (url, method, param = {}, option = {}) => {
       url += '?' + qs.stringify(param);
       // console.log('---request url---', url);
     }
+    // console.log('---request url---', url, param, option);
     const res = await fetch(url, {
       ...(method !== 'GET' && {
         body: JSON.stringify(option.query ? { query: option.query } : param),

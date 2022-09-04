@@ -1,0 +1,25 @@
+---
+import BlogList from "../../../../layouts/BlogList.astro";
+const { page,book } = Astro.params;
+let pageN = 0
+try {
+  pageN = Number(page);
+  if(isNaN(pageN) || !Number.isInteger(pageN)) {
+    // return Astro.redirect('/blog');
+    return new Response(null, {
+      status: 404,
+      statusText: 'Not found'
+    });
+  }
+} catch (error) {
+  return new Response(null, {
+    status: 404,
+    statusText: 'Not found'
+  });
+}
+if(pageN <= 1) {
+  return Astro.redirect(`/p/${book}`);
+}
+
+---
+<BlogList page={pageN} book={book} />

@@ -5,18 +5,15 @@ import BlogPost from '../../../layouts/BlogPost.astro';
 import Markdown from '../../../components/Markdown';
 import EditorJsRender from '../../../components/EditorJsRender';
 const { book,post } = Astro.params;
-// console.log('post detail',book,post);
 const result = await getPostDetail(post);
 const isMd =  !!result.props?.isMd;
-// console.log('--posts post',result.props?.post?.tags,result.props?.post?.meta?.featureImage);
-// const posts = await Astro.glob('../pages/post/*.md');
-// Use Astro.glob() to fetch all posts, and then sort them by date.
-// const posts = (await Astro.glob('./blog/*.{md,mdx}')).sort(
-// 	(a, b) => new Date(b.frontmatter.pubDate).valueOf() - new Date(a.frontmatter.pubDate).valueOf()
-// );
+console.log('--',result.props?.post)
 ---
 <BlogPost 
 	title={result.props?.post?.name ?? ''} 
+	pubDate={result.props?.post?._createTime}
+	updatedDate={result.props?.post?._modifyTime}
+	description={result.props?.post?.meta?.metaDescription}
 	heroImage={result.props?.post?.meta?.featureImage} 
 	tags={result.props?.post?.tags?.map(item => item.name)}
 >

@@ -56,8 +56,8 @@ const {
 					/>
 				)}
 				<h1 class="title">{title}</h1>
-				{pubDate && <time>{pubDate}</time>}
-				{updatedDate && <div>Last updated on <time>{updatedDate}</time></div>}
+				{pubDate && <time style="font-size:14px">{pubDate}</time>}
+				{updatedDate && <div style="font-size:14px">Last updated on <time>{updatedDate}</time></div>}
 				<hr/>
 				<slot />
 			</article>

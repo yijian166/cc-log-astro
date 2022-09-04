@@ -50,7 +50,32 @@ export async function markdownToHtml(markdown) {
     .process(markdown);
   return result.toString();
 }
-export const getPosts = (start = 0, limit = PaginationLimit) => {
+/**
+ * query books
+ * @returns
+ */
+export const getBooks = () => {
+  return apiRequestV2WithThrow(
+    'graphql',
+    'POST',
+    {},
+    {
+      query: `query {
+        books(limit:20) {
+          id,name,slug,status, 
+        }
+      }`,
+    }
+  );
+};
+/**
+ * query books
+ * @param {*} start
+ * @param {*} bookUUID
+ * @returns
+ */
+export const getPosts = (start = 0, bookUUID = '') => {
+  const limit = PaginationLimit;
   return apiRequestV2WithThrow(
     `graphql`,
     'POST',
@@ -58,8 +83,11 @@ export const getPosts = (start = 0, limit = PaginationLimit) => {
     {
       query: `query {
         posts(limit: ${limit},start:${
-        start * start
-      },sort: "created_at:desc", where:{status: "published"}) {
+        start * limit
+      },sort: "created_at:desc", where:{
+        status: "published",
+        ${bookUUID ? `book: { slug: "${bookUUID}" }` : ''}
+      }) {
           slug,
           uuid,
           status,
