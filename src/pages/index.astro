@@ -3,46 +3,25 @@ import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
+import {DefaultSiteFeatureImage} from '../services'
 ---
 
 <!DOCTYPE html>
 <html lang="en-us">
 	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} image={DefaultSiteFeatureImage.url}/>
 	</head>
 	<body>
 		<Header title={SITE_TITLE} />
 		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
+			<img
+				width={DefaultSiteFeatureImage?.width}
+				height={DefaultSiteFeatureImage?.height}
+				src={DefaultSiteFeatureImage?.url}
+				alt=""
+			/>
 			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This
-				template serves as a lightweight, minimally-styled starting point for anyone looking to build
-				a personal website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/pages/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to <a href="https://docs.astro.build/"
-					>read the docs
-				</a> or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out <a
-					href="https://github.com/Charca/astro-blog-template"
-					>astro-blog-template
-				</a> by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
+				我希望能够远走，逃离我的所知，逃离我的所有，逃离我的所爱。我想要出发，不是去缥渺幻境中的西印度，不是去远离其他南大陆的巨大海岛，我只是想去任何地方，不论是村庄或者荒原，只要不是在这里就行。我向往的只是不再见到这些人面，不再过这种没完没了的日子。我想做到的，是卸下我已成习惯的伪装，成为另一个我，以此得到喘息。我想要睡意临近之感，这种睡眠是生活的期许而不是生活的休息。靠着海边的一个木棚，甚至崎岖山脉边缘的一个山洞，对于我来说都够了。不幸的是，我在这些事情上从来都是事与愿违。
 			</p>
 		</main>
 		<Footer />

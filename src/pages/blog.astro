@@ -8,7 +8,7 @@ import { getPosts } from '../services';
 const page = 1;
 const isPreview = false;
 const result = await getPosts(0);
-console.log('--posts',result.data?.posts)
+// console.log('--posts',result.data?.posts)
 const posts = result.data?.posts ?? [];
 // Use Astro.glob() to fetch all posts, and then sort them by date.
 // const posts = (await Astro.glob('./blog/*.{md,mdx}')).sort(

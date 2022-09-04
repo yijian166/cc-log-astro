@@ -13,16 +13,24 @@ export interface Props {
 		width?: number;
 		height?:number
 	};
+	tags?: string[]
 }
 
 const {
-	title, description, pubDate, updatedDate, heroImage
+	title, description, pubDate, updatedDate, heroImage,tags
 } = Astro.props;
 ---
 
 <html>
 	<head>
-		<BaseHead title={title} description={description} />
+		<BaseHead 
+			title={title} 
+			description={description} 
+			image={heroImage?.url??''} 
+			imageWidth={heroImage?.width} 
+			imageHeight={heroImage?.height}
+			tags={tags}
+		/>
 		<style>
 			.title {
 				font-size: 2em;
@@ -32,6 +40,7 @@ const {
 				border-top: 1px solid #DDD;
 				margin: 1rem 0;
 			}
+			
 		</style>
 	</head>
 	<body>

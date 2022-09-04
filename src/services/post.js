@@ -12,7 +12,7 @@ import prism from 'remark-prism';
 import toc from 'remark-toc';
 import slug from 'remark-slug';
 import { getPlaiceholder } from 'plaiceholder';
-const DefaultSiteFeatureImage = {
+export const DefaultSiteFeatureImage = {
   url: 'https://image.hicc.pro/pro/20210621011100FogTEZ-rHY_vjy8BV-yGeEPPrBe3NWXhU6m2v1W4087jDXEnl.jpg',
   width: 4032,
   height: 3024,

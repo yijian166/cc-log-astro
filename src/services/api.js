@@ -62,7 +62,7 @@ export const apiRequestV2 = async (url, method, param = {}, option = {}) => {
       };
     }
     const data = await res.json();
-    console.log('--2 url', url, data);
+    // console.log('--2 url', url, data);
     if (option.query) {
       // graphql
       return {

@@ -7,15 +7,18 @@ export interface Props {
 	title: string;
 	description: string;
 	image?: string;
+	imageWidth?: number;
+	imageHeight?: number;
+	tags?: string[]
 }
 
-const { title, description, image = '/placeholder-social.jpg' } = Astro.props;
+const { title, description, image = '/placeholder-social.jpg',imageWidth,imageHeight, tags } = Astro.props;
 ---
 
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon"  href="/favicon.png" />
 <meta name="generator" content={Astro.generator} />
 
 <!-- Primary Meta Tags -->
@@ -36,3 +39,13 @@ const { title, description, image = '/placeholder-social.jpg' } = Astro.props;
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
+<meta name="twitter:label1" content="Written by" />
+<meta name="twitter:data1" content="tyler" />
+<meta name="twitter:label2" content="Filed under" />
+<meta
+	name="twitter:data2"
+	content={Array.isArray(tags) ? tags.join(', '): ''}
+/>
+<meta name="twitter:site" content="@xiaodao26" />
+{imageWidth ? <meta property="og:image:width" content={String(imageWidth ?? 0)} /> : null }
+{imageHeight ? <meta property="og:image:height" content={String(imageHeight ?? 0)} /> : null }

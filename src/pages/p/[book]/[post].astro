@@ -5,19 +5,21 @@ import BlogPost from '../../../layouts/BlogPost.astro';
 import Markdown from '../../../components/Markdown';
 import EditorJsRender from '../../../components/EditorJsRender';
 const { book,post } = Astro.params;
-console.log('post detail',book,post);
-const page = 1;
-const isPreview = false;
+// console.log('post detail',book,post);
 const result = await getPostDetail(post);
 const isMd =  !!result.props?.isMd;
-console.log('--posts post',result.props?.post,result.props?.post?.meta?.featureImage);
+// console.log('--posts post',result.props?.post?.tags,result.props?.post?.meta?.featureImage);
 // const posts = await Astro.glob('../pages/post/*.md');
 // Use Astro.glob() to fetch all posts, and then sort them by date.
 // const posts = (await Astro.glob('./blog/*.{md,mdx}')).sort(
 // 	(a, b) => new Date(b.frontmatter.pubDate).valueOf() - new Date(a.frontmatter.pubDate).valueOf()
 // );
 ---
-<BlogPost title={result.props?.post?.name ?? ''} heroImage={result.props?.post?.meta?.featureImage} >
+<BlogPost 
+	title={result.props?.post?.name ?? ''} 
+	heroImage={result.props?.post?.meta?.featureImage} 
+	tags={result.props?.post?.tags?.map(item => item.name)}
+>
 	{
 		isMd ? <Markdown md={result.props?.post?.rawContent ?? ''} />:<EditorJsRender data={result.props?.post?.content?.data ?? {}} />
 	}
