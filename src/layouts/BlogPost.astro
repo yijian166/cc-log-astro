@@ -1,24 +1,58 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import BlogHeader from '../components/BlogHeader.astro';
-import BlogPost from '../components/BlogPost.astro';
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
 
+export interface Props {
+	title: string;
+	description: string;
+	pubDate?: string;
+	updatedDate?: string;
+	heroImage?: {
+		url:string,
+		width?: number;
+		height?:number
+	};
+}
 
-const { content } = Astro.props;
-const { title, description, publishDate, author, heroImage, permalink, alt } = content;
+const {
+	title, description, pubDate, updatedDate, heroImage
+} = Astro.props;
 ---
 
-<html lang={content.lang || 'en'}>
+<html>
 	<head>
-		<BaseHead {title} {description} {permalink} />
+		<BaseHead title={title} description={description} />
+		<style>
+			.title {
+				font-size: 2em;
+				margin: 0.25em 0 0;
+			}
+			hr {
+				border-top: 1px solid #DDD;
+				margin: 1rem 0;
+			}
+		</style>
 	</head>
-
 	<body>
-		<BlogHeader />
-		<div class="wrapper">
-			<BlogPost {title} {author} {heroImage} {publishDate} {alt}>
+		<Header />
+		<main>
+			<article>
+				{heroImage?.url && (
+					<img
+						width={heroImage?.width}
+						height={heroImage?.height}
+						src={heroImage?.url}
+						alt=""
+					/>
+				)}
+				<h1 class="title">{title}</h1>
+				{pubDate && <time>{pubDate}</time>}
+				{updatedDate && <div>Last updated on <time>{updatedDate}</time></div>}
+				<hr/>
 				<slot />
-			</BlogPost>
-		</div>
+			</article>
+		</main>
+		<Footer />
 	</body>
 </html>
