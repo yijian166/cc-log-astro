@@ -1,0 +1,25 @@
+---
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../../config';
+import { getPostDetail, getPosts } from '../../../services/post';
+import BlogPost from '../../../layouts/BlogPost.astro';
+import Markdown from '../../../components/Markdown';
+import EditorJsRender from '../../../components/EditorJsRender';
+const { book,post } = Astro.params;
+console.log('post detail',book,post);
+const page = 1;
+const isPreview = false;
+const result = await getPostDetail(post);
+const isMd =  !!result.props?.isMd;
+console.log('--posts post',result.props?.post,result.props?.post?.meta?.featureImage);
+// const posts = await Astro.glob('../pages/post/*.md');
+// Use Astro.glob() to fetch all posts, and then sort them by date.
+// const posts = (await Astro.glob('./blog/*.{md,mdx}')).sort(
+// 	(a, b) => new Date(b.frontmatter.pubDate).valueOf() - new Date(a.frontmatter.pubDate).valueOf()
+// );
+---
+<BlogPost title={result.props?.post?.name ?? ''} heroImage={result.props?.post?.meta?.featureImage} >
+	{
+		isMd ? <Markdown md={result.props?.post?.rawContent ?? ''} />:<EditorJsRender data={result.props?.post?.content?.data ?? {}} />
+	}
+	
+</BlogPost>
