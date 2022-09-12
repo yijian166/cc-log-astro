@@ -36,6 +36,7 @@ export const get = async  () => {
             this.push(item);
           });
           if (result.data.length < PaginationLimit) {
+            this.push({__url:'/articles'});
             this.push(null);
           }
         }
@@ -45,7 +46,7 @@ export const get = async  () => {
     const trans = new Transform({
       objectMode: true,
       transform(data, encoding, callback) {
-        callback(null, `/p/${data.slug || data.uuid}`);
+        callback(null, data.__url || `/p/${data.slug || data.uuid}`);
       },
     });
 

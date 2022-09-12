@@ -1,3 +1,9 @@
+# deploy
+
+```bash
+npm i --registry=https://registry.npmjs.org/
+```
+
 # Astro Starter Kit: Blog
 
 ```
