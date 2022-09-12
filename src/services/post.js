@@ -318,3 +318,32 @@ export const getPostDetail = async (postUUID) => {
     revalidate: 10,
   };
 };
+
+
+export const getPostsWithGraphql = (start = 0, limit = 50) => {
+  // const adminUrl = process.env.Backend;
+  return apiRequestV2WithThrow(
+    `graphql`,
+    'POST',
+    {},
+    {
+      query: `query {
+        posts(limit: ${limit},start:${
+        start * start
+      },sort: "created_at:desc", where:{status: "published"}) {
+          slug,
+          uuid,
+          status,
+          name,
+          book {
+            id,uuid,name,slug
+          },
+          meta {
+            metaDescription,
+          },
+          updated_at
+        }
+      }`,
+    }
+  );
+};

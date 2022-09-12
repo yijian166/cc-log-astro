@@ -7,7 +7,7 @@ import EditorJsRender from '../../../components/EditorJsRender';
 const { book,post } = Astro.params;
 const result = await getPostDetail(post);
 const isMd =  !!result.props?.isMd;
-console.log('--',result.props?.post)
+// console.log('--',result.props?.post)
 ---
 <BlogPost 
 	title={result.props?.post?.name ?? ''} 
