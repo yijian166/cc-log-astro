@@ -13,12 +13,14 @@ export default ({ md }) => {
       remarkPlugins={[slug, [toc, { skip: 'Intro' }]]}
       components={{
         code({ node, inline, className, children, ...props }) {
+         
           const match = /language-(\w+)/.exec(className || '');
-          return !inline && match ? (
+          // console.log('---',match)
+          return !inline ? (
             <SyntaxHighlighter
               children={String(children).replace(/\n$/, '')}
               // style={dark}
-              language={match[1]}
+              language={match?.[1]}
               PreTag="div"
               {...props}
             />
