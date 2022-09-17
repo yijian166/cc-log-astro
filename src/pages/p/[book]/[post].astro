@@ -18,7 +18,10 @@ const isMd =  !!result.props?.isMd;
 	tags={result.props?.post?.tags?.map(item => item.name)}
 >
 	{
-		isMd ? <Markdown md={result.props?.post?.rawContent ?? ''} />:<EditorJsRender data={result.props?.post?.content?.data ?? {}} />
+		isMd ? 
+			<Markdown md={result.props?.post?.rawContent ?? ''} />
+			:
+			<EditorJsRender data={result.props?.post?.content?.data ?? {}} />
 	}
 	
 </BlogPost>

@@ -7,6 +7,7 @@ import * as turndownPluginGfm from 'turndown-plugin-gfm';
 // import prismjs from 'prismjs';
 import { hashCode } from '../services';
 import Markdown from './Markdown';
+import PostToc from './Toc';
 const BaseStyle = style;
 // import NextImage from 'next/image';
 // import 'prismjs/themes/prism.css';
@@ -512,6 +513,8 @@ const Checklist = (props) => {
 const EditorJsRender = (props) => {
   // const keys = Object.keys(props.data.blocks)
   return (
+    <>
+    <PostToc data={props.data} />
     <div
       className={`${style.box} ${BaseStyle['artical']} ${
         props.isMd ? style.isMd : ''
@@ -555,6 +558,7 @@ const EditorJsRender = (props) => {
         return <div key={`${index}`}>TODO {type}</div>;
       })}
     </div>
+    </>
   );
 };
 

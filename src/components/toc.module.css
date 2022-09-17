@@ -1,0 +1,33 @@
+.toc {
+  list-style: none;
+  font-size: 12px;
+  line-height: 1.2;
+  margin: 0;
+  padding: 0;
+  opacity: 0.5;
+  visibility: hidden;
+  overflow: auto;
+}
+.toc li {
+  width: 200px;
+  word-wrap: break-word;
+  margin-bottom: 6px;
+}
+.toc :global .level-1 {
+  padding-left: 0px;
+}
+.toc :global .level-2 {
+  padding-left: 10px;
+}
+.toc :global .level-3 {
+  padding-left: 20px;
+}
+.toc :global .level-4 {
+  padding-left: 30px;
+}
+.toc :global .level-5 {
+  padding-left: 40px;
+}
+.toc :global .level-6 {
+  padding-left: 50px;
+}
