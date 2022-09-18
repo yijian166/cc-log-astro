@@ -1,11 +1,9 @@
 import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
 import {
-  apiRequestV2WithThrow,
   PaginationLimit,
   apiRequestV2,
-  AdminUrl,
-  toJsonObject,
   SiteUrl,
+  getPostCountNoFail,
 } from '../services';
 import sitemap from 'sitemap'
 import { createGzip } from 'zlib'
@@ -23,20 +21,43 @@ export const get = async  () => {
     const contentStream = new Readable({
       objectMode: true,
       async read(size) {
+        let all = []
+        if(page === 0) {
+          const count = await getPostCountNoFail()
+          // console.log('- all',count,Math.ceil(count / PaginationLimit))
+          new Array(Math.max(1,Math.ceil(count / PaginationLimit))).fill(1).forEach((_,i) => {
+            // this.push({__url:'/articles', page: i + 1});
+            all.push({__url:'/articles', page: i +1})
+          })
+        }
         const result = await apiRequestV2(`/books`, 'GET', {
           _start: PaginationLimit * Math.max(page++ - 1, 0),
           _limit: PaginationLimit,
           _sort: 'created_at:desc',
         });
-        // console.log('-----111', page);
+        
+        // console.log('-----111', result);
         if (result.error || !Array.isArray(result.data)) {
           this.push(null);
         } else {
-          result.data.forEach((item) => {
-            this.push(item);
+          let list = []
+          for (const item of result.data) {
+            const count = await getPostCountNoFail(item.id)
+            // item.count = count;
+            new Array(Math.max(1,Math.ceil(count / PaginationLimit))).fill(1).forEach((_,i) => {
+              list.push({
+                ...item,
+                page: i + 1
+              })
+              // console.log('--book item',item.slug, i + 1)
+              // this.push(item);
+            })
+          }
+
+          all.concat(list).forEach((item) => {
+            this.push(item); 
           });
           if (result.data.length < PaginationLimit) {
-            this.push({__url:'/articles'});
             this.push(null);
           }
         }
@@ -46,7 +67,12 @@ export const get = async  () => {
     const trans = new Transform({
       objectMode: true,
       transform(data, encoding, callback) {
-        callback(null, data.__url || `/p/${data.slug || data.uuid}`);
+        // console.log('--11-',data)
+        let link = data.__url || `/p/${data.slug || data.uuid}`
+        if(data.page && data.page > 1) {
+          link = `${link}/page/${data.page}`
+        }
+        callback(null, link);
       },
     });
 

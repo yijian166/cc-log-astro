@@ -61,13 +61,35 @@ export const getBooks = () => {
     {},
     {
       query: `query {
-        books(limit:20) {
+        books(limit:${PaginationLimit}) {
           id,name,slug,status, 
         }
       }`,
     }
   );
 };
+
+export const getPostCount = async (bookId = -1) => {
+  // const adminUrl = process.env.Backend;
+  const count = await apiRequestV2WithThrow(
+    `/posts/countpublish`,
+    'GET',
+    {
+      ...(bookId > -1 && { _where: [{ book: bookId }] }),
+    },
+    {
+      returnText: true,
+    }
+  );
+  return count.data ?? 0;
+};
+export const getPostCountNoFail = (bookId = -1) => {
+  try {
+    return getPostCount(bookId)
+  } catch (error) {
+    return 0 
+  }
+}
 /**
  * query books
  * @param {*} start
