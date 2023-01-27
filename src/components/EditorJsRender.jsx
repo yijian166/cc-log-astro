@@ -287,10 +287,11 @@ const Code = (props) => {
 };
 
 const LinkTool = (props) => {
+  const title = typeof props.data?.meta?.title === 'object' ? undefined:props.data?.meta?.title
   if (props.isMd) {
     return (
       <p>
-        [{props.data?.meta?.title ?? props.data.link ?? 'untitle'}](
+        [{title ?? props.data.link ?? 'untitle'}](
         {props.data.link})
       </p>
     );
@@ -303,7 +304,7 @@ const LinkTool = (props) => {
       <img src={props.data?.meta?.image?.url ?? BaseUrl} alt="" />
       <div className={style['link-tool-info']}>
         <h6 className={style['link-tool-info-title']}>
-          {props.data?.meta?.title ?? props.data.link ?? 'untitle'}
+          {title ?? props.data.link ?? 'untitle'}
         </h6>
         <p className={style['link-tool-info-desp']}>
           {props.data?.meta?.description ?? ''}
