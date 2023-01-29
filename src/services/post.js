@@ -160,15 +160,15 @@ const findIframeTagInMd = (md, template) => {
     'sg'
   );
   return md.match(reg)?.reduce((pre, stWithTag) => {
-    console.log('stWithTag:', stWithTag);
+    // console.log('stWithTag:', stWithTag);
     const mdContent = stWithTag.match(
       /(?<=\[iframe[^\]]*\])(.*?)(?=\[\/iframe\])/gs
     )?.[0];
-    console.log('md:\n', mdContent);
+    // console.log('md:\n', mdContent);
     const code = stWithTag.match(
       /(?<=\[iframe[^\]]*\]\n```\w*?\n)(.*?)(?=```\n\[\/iframe\])/gs
     )?.[0];
-    console.log('code:\n', code);
+    // console.log('code:\n', code);
     pre.push({
       stWithTag,
       mdContent,
@@ -184,7 +184,7 @@ const handleMdIframeTag = (md) => {
       'threejs-init',
       (md, matchInfos) => {
         let _content = md;
-        console.log('--x', matchInfos);
+        // console.log('--x', matchInfos);
         matchInfos?.forEach(({ stWithTag, mdContent, code }) => {
           const html = (code) => {
             const html = `<!DOCTYPE html>
@@ -219,7 +219,7 @@ const handleMdIframeTag = (md) => {
             return buff.toString('base64');
           };
           const _mdContent = `${mdContent || ''}\n\n<div class="iframe-box">
-          <iframe class="Threejs-iframe" sandbox="allow-scripts" src="data:text/html;base64,${html(
+          <iframe class="Threejs-iframe" sandbox="allow-scripts" loading="lazy" src="data:text/html;base64,${html(
             code
           )}" ></iframe></div>
         `;
@@ -232,7 +232,7 @@ const handleMdIframeTag = (md) => {
       'threejs-init2',
       (md, matchInfos) => {
         let _content = md;
-        console.log('--x', matchInfos);
+        // console.log('--x', matchInfos);
         matchInfos?.forEach(({ stWithTag, mdContent, code }) => {
           const html = (code) => {
             const html = `<!DOCTYPE html>
@@ -271,7 +271,7 @@ const handleMdIframeTag = (md) => {
             return buff.toString('base64');
           };
           const _mdContent = `${mdContent || ''}\n\n<div class="iframe-box">
-          <iframe class="Threejs-iframe" data-template="threejs-init2" sandbox="allow-scripts" src="data:text/html;base64,${html(
+          <iframe class="Threejs-iframe" loading="lazy" data-template="threejs-init2" sandbox="allow-scripts" src="data:text/html;base64,${html(
             code
           )}" ></iframe></div>
         `;
