@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import toc from 'remark-toc';
 import slug from 'remark-slug';
+import rehypeRaw from 'rehype-raw'
 // import dark from 'react-syntax-highlighter/dist/cjs/styles/prism/dark';
 // import ReactDom from 'react-dom'
 
@@ -11,6 +12,7 @@ export default ({ md }) => {
     <ReactMarkdown
       children={md}
       remarkPlugins={[slug, [toc, { skip: 'Intro' }]]}
+      rehypePlugins={[rehypeRaw]}
       components={{
         code({ node, inline, className, children, ...props }) {
          

@@ -85,11 +85,11 @@ export const getPostCount = async (bookId = -1) => {
 };
 export const getPostCountNoFail = (bookId = -1) => {
   try {
-    return getPostCount(bookId)
+    return getPostCount(bookId);
   } catch (error) {
-    return 0 
+    return 0;
   }
-}
+};
 /**
  * query books
  * @param {*} start
@@ -153,6 +153,194 @@ const getImgInfo = async (url) => {
   }
   return { isOk: false };
 };
+const findIframeTagInMd = (md, template) => {
+  //	const reg = new RegExp(`(?<=\\[iframe[^\\]]*?template=“${template}”[^\\]]*?\\])(.*?)(?=\\[\\/iframe\\])`,'sg')
+  const reg = new RegExp(
+    `\\[iframe[^\\]]*?template=“${template}”[^\\]]*?\\](.*?)\\[\\/iframe\\]`,
+    'sg'
+  );
+  return md.match(reg)?.reduce((pre, stWithTag) => {
+    console.log('stWithTag:', stWithTag);
+    const mdContent = stWithTag.match(
+      /(?<=\[iframe[^\]]*\])(.*?)(?=\[\/iframe\])/gs
+    )?.[0];
+    console.log('md:\n', mdContent);
+    const code = stWithTag.match(
+      /(?<=\[iframe[^\]]*\]\n```\w*?\n)(.*?)(?=```\n\[\/iframe\])/gs
+    )?.[0];
+    console.log('code:\n', code);
+    pre.push({
+      stWithTag,
+      mdContent,
+      code,
+    });
+    return pre;
+  }, []);
+};
+const handleMdIframeTag = (md) => {
+  let _content = md;
+  [
+    [
+      'threejs-init',
+      (md, matchInfos) => {
+        let _content = md;
+        console.log('--x', matchInfos);
+        matchInfos?.forEach(({ stWithTag, mdContent, code }) => {
+          const html = (code) => {
+            const html = `<!DOCTYPE html>
+          <html>
+          <head>
+              <title>Example 01.02 - First Scene</title>
+              <meta charset='UTF-8' />
+              <script src='${SiteUrl}/assets/threejs/libs/three/three.js'></script>
+              <script src='${SiteUrl}/assets/threejs/libs/three/controls/TrackballControls.js'></script>
+              <link rel='stylesheet' href='${SiteUrl}/assets/threejs/css/default.css'>
+          </head>
+          <body>
+              <!-- Div which will hold the Output -->
+              <div id='webgl-output'></div>
+              <script>
+                  (function () {
+                    ${
+                      code
+                      // .replace(/\/\/.+\n/g, '')
+                      // .replace(/\/\*\*[^\/]+\//g, ';')
+                      // .replace(/\n/g, '')
+                      // .replace(/"/g, `'`)
+                    }
+                  })();
+              </script>
+          </body>
+          </html>
+        
+          `;
+            const buff = Buffer.from(html, 'utf-8');
+            // encode buffer as Base64
+            return buff.toString('base64');
+          };
+          const _mdContent = `${mdContent || ''}\n\n<div class="iframe-box">
+          <iframe class="Threejs-iframe" sandbox="allow-scripts" src="data:text/html;base64,${html(
+            code
+          )}" ></iframe></div>
+        `;
+          _content = _content.replace(stWithTag, _mdContent);
+        });
+        return _content;
+      },
+    ],
+    [
+      'threejs-init2',
+      (md, matchInfos) => {
+        let _content = md;
+        console.log('--x', matchInfos);
+        matchInfos?.forEach(({ stWithTag, mdContent, code }) => {
+          const html = (code) => {
+            const html = `<!DOCTYPE html>
+          <html>
+          <head>
+              <title>Example 01.02 - First Scene</title>
+              <meta charset='UTF-8' />
+              <script src='${SiteUrl}/assets/threejs/libs/three/three.js'></script>
+              <script src='${SiteUrl}/assets/threejs/libs/three/controls/TrackballControls.js'></script>
+              <script src="${SiteUrl}/assets/threejs/libs/util/Stats.js"></script>
+              <script src="${SiteUrl}/assets/threejs/src/js/util.js"></script>
+              <link rel='stylesheet' href='${SiteUrl}/assets/threejs/css/default.css'>
+          </head>
+          <body>
+              <!-- Div which will hold the Output -->
+              <div id='webgl-output'></div>
+              <script>
+                  (function () {
+                    // contains the code for this example
+                    init();
+                    ${
+                      code
+                      // .replace(/\/\/.+\n/g, '')
+                      // .replace(/\/\*\*[^\/]+\//g, ';')
+                      // .replace(/\n/g, '')
+                      // .replace(/"/g, `'`)
+                    }
+                  })();
+              </script>
+          </body>
+          </html>
+        
+          `;
+            const buff = Buffer.from(html, 'utf-8');
+            // encode buffer as Base64
+            return buff.toString('base64');
+          };
+          const _mdContent = `${mdContent || ''}\n\n<div class="iframe-box">
+          <iframe class="Threejs-iframe" data-template="threejs-init2" sandbox="allow-scripts" src="data:text/html;base64,${html(
+            code
+          )}" ></iframe></div>
+        `;
+          _content = _content.replace(stWithTag, _mdContent);
+        });
+        return _content;
+      },
+    ],
+    [
+      'threejs-gui',
+      (md, matchInfos) => {
+        let _content = md;
+        // console.log('--x', matchInfos);
+        matchInfos?.forEach(({ stWithTag, mdContent, code }) => {
+          const html = (code) => {
+            const html = `<!DOCTYPE html>
+          <html>
+          <head>
+              <title>Example 01.02 - First Scene</title>
+              <meta charset='UTF-8' />
+              <script src='${SiteUrl}/assets/threejs/libs/three/three.js'></script>
+              <script src='${SiteUrl}/assets/threejs/libs/three/controls/TrackballControls.js'></script>
+              <script src="${SiteUrl}/assets/threejs/libs/util/Stats.js"></script>
+              <script type="text/javascript" src="${SiteUrl}/assets/threejs/libs/util/dat.gui.js"></script>
+              <script src="${SiteUrl}/assets/threejs/src/js/util.js"></script>
+              <link rel='stylesheet' href='${SiteUrl}/assets/threejs/css/default.css'>
+          </head>
+          <body>
+              <!-- Div which will hold the Output -->
+              <div id='webgl-output'></div>
+              <script>
+                  (function () {
+                    // contains the code for this example
+                    init();
+                    ${
+                      code
+                      // .replace(/\/\/.+\n/g, '')
+                      // .replace(/\/\*\*[^\/]+\//g, ';')
+                      // .replace(/\n/g, '')
+                      // .replace(/"/g, `'`)
+                    }
+                  })();
+              </script>
+          </body>
+          </html>
+          `;
+            const buff = Buffer.from(html, 'utf-8');
+            // encode buffer as Base64
+            return buff.toString('base64');
+          };
+          const _mdContent = `${mdContent || ''}\n\n<div class="iframe-box">
+          <iframe class="Threejs-iframe" data-template="threejs-init2" sandbox="allow-scripts" src="data:text/html;base64,${html(
+            code
+          )}" ></iframe></div>
+        `;
+          _content = _content.replace(stWithTag, _mdContent);
+        });
+        return _content;
+      },
+    ],
+  ].forEach(([template, fn]) => {
+    _content = fn(_content, findIframeTagInMd(_content, template));
+  });
+  // console.log('--handleMdIframeTag end', _content);
+  return _content;
+};
+const handleMdContent = async (md) => {
+  return handleMdIframeTag(`## toc\n# Intro\n${md || ''}`);
+};
 export const getPostDetail = async (postUUID) => {
   const posts = await apiRequestV2WithThrow(
     `/posts`,
@@ -189,7 +377,7 @@ export const getPostDetail = async (postUUID) => {
   if (post && typeof post.rawContent === 'string' && post.rawContent) {
     // post.html = mdToHTML(post.rawContent);
     // const md = (post.rawContent || '') + '## toc\n';
-    post.rawContent = `## toc\n# Intro\n${post.rawContent || ''}`;
+    post.rawContent = await handleMdContent(post.rawContent || '');
     // const mdHtml = await markdownToHtml(md);
     // delete post.rawContent;
     return {
@@ -340,7 +528,6 @@ export const getPostDetail = async (postUUID) => {
     revalidate: 10,
   };
 };
-
 
 export const getPostsWithGraphql = (start = 0, limit = 50) => {
   // const adminUrl = process.env.Backend;

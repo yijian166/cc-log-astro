@@ -40,13 +40,42 @@ const {
 				border-top: 1px solid #DDD;
 				margin: 1rem 0;
 			}
-			
+
+
+	
+		</style>
+		<style is:global>
+		
+
+			.post iframe {
+				width: 120ch;
+				max-width: 80vw;
+				margin-left: calc((65ch - 120ch)/2);
+				height: 600px;
+				/* max-height: 600px; */
+				border: 1px solid rgba(0, 0, 0, 0.1);
+				box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+				margin-top: 10px;
+			}	
+			.post .iframe-box {
+				position: relative;
+				z-index: 1;
+			}
+
+			@media screen and (max-width: 1200px) {
+				.post iframe {
+					margin-left: unset;
+					width: 100%;
+					max-width: 100%;
+					height: 360px;
+				}
+			}
 		</style>
 	</head>
 	<body>
 		<Header />
 		<main>
-			<article>
+			<article class="post">
 				{heroImage?.url && (
 					<img
 						width={heroImage?.width}
@@ -65,3 +94,9 @@ const {
 		<Footer />
 	</body>
 </html>
+<script>
+  // Processed! Bundled! TypeScript-supported!
+  // Importing local scripts and Node modules works.
+	const iframeBoxs  = document.querySelectorAll('div.iframe-box');
+	console.log('--iframeBoxs',iframeBoxs)
+</script>
