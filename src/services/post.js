@@ -173,12 +173,23 @@ const findIframeTagInMd = (md, template) => {
       stWithTag,
       mdContent,
       code,
+      hideContent: !!/\[iframe[^\]]*?hide-content[^\]]*?\]/.test(stWithTag),
     });
     return pre;
   }, []);
 };
+const insertIframe = (md, html, { hideContent }) => {
+  const buff = Buffer.from(html, 'utf-8');
+  // encode buffer as Base64
+  const htmlBase64 = buff.toString('base64');
+  return `\n\n<div class="iframe-box">
+  <iframe class="Threejs-iframe" sandbox="allow-scripts" loading="lazy" src="data:text/html;base64,${htmlBase64}" ></iframe></div>\n\n${
+    hideContent ? '' : `${md || ''}`
+  }`;
+};
 const handleMdIframeTag = (md) => {
   let _content = md;
+
   [
     [
       'threejs-init',
@@ -186,8 +197,7 @@ const handleMdIframeTag = (md) => {
         let _content = md;
         // console.log('--x', matchInfos);
         matchInfos?.forEach(({ stWithTag, mdContent, code }) => {
-          const html = (code) => {
-            const html = `<!DOCTYPE html>
+          const html = (code) => `<!DOCTYPE html>
           <html>
           <head>
               <title>Example 01.02 - First Scene</title>
@@ -212,18 +222,11 @@ const handleMdIframeTag = (md) => {
               </script>
           </body>
           </html>
-        
           `;
-            const buff = Buffer.from(html, 'utf-8');
-            // encode buffer as Base64
-            return buff.toString('base64');
-          };
-          const _mdContent = `${mdContent || ''}\n\n<div class="iframe-box">
-          <iframe class="Threejs-iframe" sandbox="allow-scripts" loading="lazy" src="data:text/html;base64,${html(
-            code
-          )}" ></iframe></div>
-        `;
-          _content = _content.replace(stWithTag, _mdContent);
+          _content = _content.replace(
+            stWithTag,
+            insertIframe(mdContent, html(code))
+          );
         });
         return _content;
       },
@@ -234,8 +237,7 @@ const handleMdIframeTag = (md) => {
         let _content = md;
         // console.log('--x', matchInfos);
         matchInfos?.forEach(({ stWithTag, mdContent, code }) => {
-          const html = (code) => {
-            const html = `<!DOCTYPE html>
+          const html = (code) => `<!DOCTYPE html>
           <html>
           <head>
               <title>Example 01.02 - First Scene</title>
@@ -264,18 +266,11 @@ const handleMdIframeTag = (md) => {
               </script>
           </body>
           </html>
-        
           `;
-            const buff = Buffer.from(html, 'utf-8');
-            // encode buffer as Base64
-            return buff.toString('base64');
-          };
-          const _mdContent = `${mdContent || ''}\n\n<div class="iframe-box">
-          <iframe class="Threejs-iframe" loading="lazy" data-template="threejs-init2" sandbox="allow-scripts" src="data:text/html;base64,${html(
-            code
-          )}" ></iframe></div>
-        `;
-          _content = _content.replace(stWithTag, _mdContent);
+          _content = _content.replace(
+            stWithTag,
+            insertIframe(mdContent, html(code))
+          );
         });
         return _content;
       },
@@ -285,9 +280,8 @@ const handleMdIframeTag = (md) => {
       (md, matchInfos) => {
         let _content = md;
         // console.log('--x', matchInfos);
-        matchInfos?.forEach(({ stWithTag, mdContent, code }) => {
-          const html = (code) => {
-            const html = `<!DOCTYPE html>
+        matchInfos?.forEach(({ stWithTag, mdContent, code, hideContent }) => {
+          const html = (code) => `<!DOCTYPE html>
           <html>
           <head>
               <title>Example 01.02 - First Scene</title>
@@ -318,16 +312,11 @@ const handleMdIframeTag = (md) => {
           </body>
           </html>
           `;
-            const buff = Buffer.from(html, 'utf-8');
-            // encode buffer as Base64
-            return buff.toString('base64');
-          };
-          const _mdContent = `${mdContent || ''}\n\n<div class="iframe-box">
-          <iframe class="Threejs-iframe" data-template="threejs-init2" sandbox="allow-scripts" src="data:text/html;base64,${html(
-            code
-          )}" ></iframe></div>
-        `;
-          _content = _content.replace(stWithTag, _mdContent);
+
+          _content = _content.replace(
+            stWithTag,
+            insertIframe(mdContent, html(code), { hideContent })
+          );
         });
         return _content;
       },
