@@ -169,11 +169,16 @@ const findIframeTagInMd = (md, template) => {
       /(?<=\[iframe[^\]]*\]\n```\w*?\n)(.*?)(?=```\n\[\/iframe\])/gs
     )?.[0];
     // console.log('code:\n', code);
+    const assets = stWithTag.match(
+      /(?<=^\[iframe[^\]]*?assets=")(.*?)(?="[^\]]*?\])/g
+    )?.[0];
+    // console.log('assetsMatch:\n', assetsMatch);
     pre.push({
       stWithTag,
       mdContent,
       code,
-      hideContent: !!/\[iframe[^\]]*?hide-content[^\]]*?\]/.test(stWithTag),
+      hideContent: !!/^\[iframe[^\]]*?hide-content[^\]]*?\]/.test(stWithTag),
+      assets: assets?.split(','),
     });
     return pre;
   }, []);
@@ -196,14 +201,22 @@ const handleMdIframeTag = (md) => {
       (md, matchInfos) => {
         let _content = md;
         // console.log('--x', matchInfos);
-        matchInfos?.forEach(({ stWithTag, mdContent, code }) => {
+        matchInfos?.forEach(({ stWithTag, mdContent, code, ...rest }) => {
           const html = (code) => `<!DOCTYPE html>
           <html>
           <head>
-              <title>Example 01.02 - First Scene</title>
+              <title>Three.js Example</title>
               <meta charset='UTF-8' />
               <script src='${SiteUrl}/assets/threejs/libs/three/three.js'></script>
               <script src='${SiteUrl}/assets/threejs/libs/three/controls/TrackballControls.js'></script>
+              ${
+                rest.assets
+                  ?.map(
+                    (item) =>
+                      `<script src='${SiteUrl}/assets/threejs/libs/${item}'></script>`
+                  )
+                  .join('\n') ?? ''
+              }
               <link rel='stylesheet' href='${SiteUrl}/assets/threejs/css/default.css'>
           </head>
           <body>
@@ -225,7 +238,8 @@ const handleMdIframeTag = (md) => {
           `;
           _content = _content.replace(
             stWithTag,
-            insertIframe(mdContent, html(code))
+            insertIframe(mdContent, html(code)),
+            rest
           );
         });
         return _content;
@@ -236,14 +250,22 @@ const handleMdIframeTag = (md) => {
       (md, matchInfos) => {
         let _content = md;
         // console.log('--x', matchInfos);
-        matchInfos?.forEach(({ stWithTag, mdContent, code }) => {
+        matchInfos?.forEach(({ stWithTag, mdContent, code, ...rest }) => {
           const html = (code) => `<!DOCTYPE html>
           <html>
           <head>
-              <title>Example 01.02 - First Scene</title>
+              <title>Three.js Example</title>
               <meta charset='UTF-8' />
               <script src='${SiteUrl}/assets/threejs/libs/three/three.js'></script>
               <script src='${SiteUrl}/assets/threejs/libs/three/controls/TrackballControls.js'></script>
+              ${
+                rest.assets
+                  ?.map(
+                    (item) =>
+                      `<script src='${SiteUrl}/assets/threejs/libs/${item}'></script>`
+                  )
+                  .join('\n') ?? ''
+              }
               <script src="${SiteUrl}/assets/threejs/libs/util/Stats.js"></script>
               <script src="${SiteUrl}/assets/threejs/src/js/util.js"></script>
               <link rel='stylesheet' href='${SiteUrl}/assets/threejs/css/default.css'>
@@ -269,7 +291,8 @@ const handleMdIframeTag = (md) => {
           `;
           _content = _content.replace(
             stWithTag,
-            insertIframe(mdContent, html(code))
+            insertIframe(mdContent, html(code)),
+            rest
           );
         });
         return _content;
@@ -280,16 +303,24 @@ const handleMdIframeTag = (md) => {
       (md, matchInfos) => {
         let _content = md;
         // console.log('--x', matchInfos);
-        matchInfos?.forEach(({ stWithTag, mdContent, code, hideContent }) => {
+        matchInfos?.forEach(({ stWithTag, mdContent, code, ...rest }) => {
           const html = (code) => `<!DOCTYPE html>
           <html>
           <head>
-              <title>Example 01.02 - First Scene</title>
+              <title>Three.js Example</title>
               <meta charset='UTF-8' />
               <script src='${SiteUrl}/assets/threejs/libs/three/three.js'></script>
               <script src='${SiteUrl}/assets/threejs/libs/three/controls/TrackballControls.js'></script>
+              ${
+                rest.assets
+                  ?.map(
+                    (item) =>
+                      `<script src='${SiteUrl}/assets/threejs/libs/${item}'></script>`
+                  )
+                  .join('\n') ?? ''
+              }
               <script src="${SiteUrl}/assets/threejs/libs/util/Stats.js"></script>
-              <script type="text/javascript" src="${SiteUrl}/assets/threejs/libs/util/dat.gui.js"></script>
+              <script src="${SiteUrl}/assets/threejs/libs/util/dat.gui.js"></script>
               <script src="${SiteUrl}/assets/threejs/src/js/util.js"></script>
               <link rel='stylesheet' href='${SiteUrl}/assets/threejs/css/default.css'>
           </head>
@@ -315,7 +346,7 @@ const handleMdIframeTag = (md) => {
 
           _content = _content.replace(
             stWithTag,
-            insertIframe(mdContent, html(code), { hideContent })
+            insertIframe(mdContent, html(code), rest)
           );
         });
         return _content;
