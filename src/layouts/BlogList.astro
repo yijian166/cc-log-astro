@@ -4,6 +4,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
 import { getBooks, getPosts } from '../services';
+import RichBody from '../components/RichBody.astro';
 const { page, book } = Astro.props;
 // console.log('--s',page,book)
 // if(!Number.isInteger(page) || page < 1) {
@@ -81,44 +82,44 @@ const isPreview = false;
       }
 		</style>
 	</head>
-	<body>
-		<Header />
-    <section class="book-nav">
-      <ul>
-        {books.map((book) => {
-          const _path = `/p/${book.slug}`
-          return <li><a href={_path} class={Astro.url.pathname.startsWith(_path)?'active':''}>{book.name}</a></li>
-        })}
-      </ul>
-    </section>
-		<main>
-			<section>
-        {
-          posts.length > 0 ? (
-            <ul>
-              {posts.map((post) => (
-                <li>
-                  <time datetime={post.created_at}>
-                    {new Date(post.created_at).toLocaleDateString('en-us', {
-                      year: 'numeric',
-                      month: 'short',
-                      day: 'numeric',
-                    })}
-                  </time>
-                  <a href={`/p/${post.book?.slug || post.book?.uuid}/${post.slug || post.uuid}${isPreview ? `?preview=1` : ''}`}>
-                    {post.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          ):<p>No Data Yet!</p>
-        }
-			</section>
-      <div class="footer-link">
-        <a href={preUrl || `javascript:void`} class={preUrl?'':'mute'}>←&nbsp;Previous</a>
-        <a href={nextUrl || `javascript:void`} class={nextUrl?'':'mute'}>Next&nbsp;→</a>
-      </div>
-			<Footer />
-		</main>
-	</body>
+    <RichBody>
+      <Header />
+      <section class="book-nav">
+        <ul>
+          {books.map((book) => {
+            const _path = `/p/${book.slug}`
+            return <li><a href={_path} class={Astro.url.pathname.startsWith(_path)?'active':''}>{book.name}</a></li>
+          })}
+        </ul>
+      </section>
+      <main>
+        <section>
+          {
+            posts.length > 0 ? (
+              <ul>
+                {posts.map((post) => (
+                  <li>
+                    <time datetime={post.created_at}>
+                      {new Date(post.created_at).toLocaleDateString('en-us', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                      })}
+                    </time>
+                    <a href={`/p/${post.book?.slug || post.book?.uuid}/${post.slug || post.uuid}${isPreview ? `?preview=1` : ''}`}>
+                      {post.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            ):<p>No Data Yet!</p>
+          }
+        </section>
+        <div class="footer-link">
+          <a href={preUrl || `javascript:void`} class={preUrl?'':'mute'}>←&nbsp;Previous</a>
+          <a href={nextUrl || `javascript:void`} class={nextUrl?'':'mute'}>Next&nbsp;→</a>
+        </div>
+        <Footer />
+      </main>
+    </RichBody>
 </html>

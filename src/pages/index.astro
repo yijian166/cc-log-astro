@@ -2,6 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import RichBody from '../components/RichBody.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
 import {DefaultSiteFeatureImage} from '../services'
 ---
@@ -12,7 +13,7 @@ import {DefaultSiteFeatureImage} from '../services'
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} image={DefaultSiteFeatureImage.url}/>
 		<meta name="google-site-verification" content="sT6LQKFycckoOt4dsf8DTmwDQBGNkZNz4O1zLTVJ0uo" />
 	</head>
-	<body>
+	<RichBody>
 		<Header title={SITE_TITLE} />
 		<main>
 			<img
@@ -30,5 +31,5 @@ import {DefaultSiteFeatureImage} from '../services'
 			</p>
 		</main>
 		<Footer />
-	</body>
+	</RichBody>
 </html>
