@@ -238,8 +238,7 @@ const handleMdIframeTag = (md) => {
           `;
           _content = _content.replace(
             stWithTag,
-            insertIframe(mdContent, html(code)),
-            rest
+            insertIframe(mdContent, html(code), rest)
           );
         });
         return _content;
@@ -291,8 +290,7 @@ const handleMdIframeTag = (md) => {
           `;
           _content = _content.replace(
             stWithTag,
-            insertIframe(mdContent, html(code)),
-            rest
+            insertIframe(mdContent, html(code), rest)
           );
         });
         return _content;
