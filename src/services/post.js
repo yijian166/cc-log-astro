@@ -187,9 +187,13 @@ const insertIframe = (md, html, { hideContent }) => {
   const buff = Buffer.from(html, 'utf-8');
   // encode buffer as Base64
   const htmlBase64 = buff.toString('base64');
+  const _md = (md || '').replace(/(?<=```.*?)(\n)/, '[class="hide-able"]\n');
+  console.log('---', _md);
   return `\n\n<div class="iframe-box">
   <iframe class="Threejs-iframe" sandbox="allow-scripts" loading="lazy" src="data:text/html;base64,${htmlBase64}" ></iframe></div>\n\n${
-    hideContent ? '' : `${md || ''}`
+    hideContent
+      ? `<div class="hide-sb-box hide" data-btn-box="hideSb"><button class="hide-sb-btn" data-btn="hideSb">show code</button>\n${_md}</div>\n`
+      : `${_md}`
   }`;
 };
 const handleMdIframeTag = (md) => {

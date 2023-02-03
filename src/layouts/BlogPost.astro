@@ -61,6 +61,27 @@ const {
 				position: relative;
 				z-index: 1;
 			}
+			.post .hide-sb-box pre {
+				display: unset;
+			}
+			.post .hide-sb-box.hide pre {
+				display: none;
+			}
+
+			.post .hide-sb-btn {
+				background: transparent;
+				border: 1px solid #eee;
+				border-radius: 6px;
+				padding-top: 0px 6px;
+				line-height: 26px;
+				color: #333;
+				cursor: pointer;
+
+			}
+			.post .hide-sb-btn:hover {
+				background: rgba(0, 0, 0, 0.01);
+			}
+
 
 			@media screen and (max-width: 1400px) {
 				.post iframe {
@@ -81,7 +102,7 @@ const {
 	<RichBody>
 		<Header />
 		<main>
-			<article class="post">
+			<article class="post" id="article-box">
 				{heroImage?.url && (
 					<img
 						width={heroImage?.width}
@@ -103,6 +124,18 @@ const {
 <script>
   // Processed! Bundled! TypeScript-supported!
   // Importing local scripts and Node modules works.
-	const iframeBoxs  = document.querySelectorAll('div.iframe-box');
-	console.log('--iframeBoxs',iframeBoxs)
+	// const iframeBoxs  = document.querySelectorAll('div.iframe-box');
+	// console.log('--iframeBoxs',iframeBoxs)
+
+	// const hideSbBtns  = document.querySelectorAll('div.hide-sb-btn');
+	// console.log('--hideSbBtns',hideSbBtns)
+	document.getElementById('article-box')?.addEventListener('click',function(e) {
+		if(e.target.dataset.btn === 'hideSb') {
+			if(e.target.closest('div').dataset.btnBox="hideSb") {
+				e.target.innerHTML = e.target.closest('div').classList.contains('hide') ? 'hide code':'show code'
+				e.target.closest('div').classList.toggle('hide')
+			}
+		}
+	})
+
 </script>
