@@ -155,10 +155,15 @@ const getImgInfo = async (url) => {
 };
 const findIframeTagInMd = (md, template) => {
   //	const reg = new RegExp(`(?<=\\[iframe[^\\]]*?template=“${template}”[^\\]]*?\\])(.*?)(?=\\[\\/iframe\\])`,'sg')
-  const reg = new RegExp(
-    `\\[iframe[^\\]]*?template=“${template}”[^\\]]*?\\](.*?)\\[\\/iframe\\]`,
-    'sg'
-  );
+  const reg = !template
+    ? new RegExp(
+        `\\[iframe[^\\]]*?src=".*?"[^\\]]*?\\](.*?)\\[\\/iframe\\]`,
+        'sg'
+      )
+    : new RegExp(
+        `\\[iframe[^\\]]*?template=“${template}”[^\\]]*?\\](.*?)\\[\\/iframe\\]`,
+        'sg'
+      );
   return md.match(reg)?.reduce((pre, stWithTag) => {
     // console.log('stWithTag:', stWithTag);
     const mdContent = stWithTag.match(
@@ -179,18 +184,28 @@ const findIframeTagInMd = (md, template) => {
       code,
       hideContent: !!/^\[iframe[^\]]*?hide-content[^\]]*?\]/.test(stWithTag),
       assets: assets?.split(','),
+      src: stWithTag.match(/(?<=\[iframe[^\\]*?src=\")(.*?)(?=\")/g)?.[0],
     });
     return pre;
   }, []);
 };
-const insertIframe = (md, html, { hideContent }) => {
-  const buff = Buffer.from(html, 'utf-8');
-  // encode buffer as Base64
-  const htmlBase64 = buff.toString('base64');
+const insertIframe = (md, htmlOrUrl, { hideContent, src }) => {
   const _md = (md || '').replace(/(?<=```.*?)(\n)/, '[class="hide-able"]\n');
   console.log('---', _md);
+  if (src) {
+    return `\n\n<div class="iframe-box">
+  <iframe class="Threejs-iframe" sandbox="allow-scripts allow-same-origin" loading="lazy" src="${src}" ></iframe></div>\n\n${
+      hideContent
+        ? `<div class="hide-sb-box hide" data-btn-box="hideSb"><button class="hide-sb-btn" data-btn="hideSb">show code</button>\n${_md}</div>\n`
+        : `${_md}`
+    }`;
+  }
+  const buff = Buffer.from(htmlOrUrl, 'utf-8');
+  // encode buffer as Base64
+  const htmlBase64 = buff.toString('base64');
+
   return `\n\n<div class="iframe-box">
-  <iframe class="Threejs-iframe" sandbox="allow-scripts" loading="lazy" src="data:text/html;base64,${htmlBase64}" ></iframe></div>\n\n${
+  <iframe class="Threejs-iframe" sandbox="allow-scripts allow-same-origin" loading="lazy" src="data:text/html;base64,${htmlBase64}" ></iframe></div>\n\n${
     hideContent
       ? `<div class="hide-sb-box hide" data-btn-box="hideSb"><button class="hide-sb-btn" data-btn="hideSb">show code</button>\n${_md}</div>\n`
       : `${_md}`
@@ -200,6 +215,20 @@ const handleMdIframeTag = (md) => {
   let _content = md;
 
   [
+    [
+      '', // match src
+      (md, matchInfos) => {
+        let _content = md;
+        // console.log('--x', matchInfos);
+        matchInfos?.forEach(({ stWithTag, mdContent, code, ...rest }) => {
+          _content = _content.replace(
+            stWithTag,
+            insertIframe(mdContent, '', rest)
+          );
+        });
+        return _content;
+      },
+    ],
     [
       'threejs-init',
       (md, matchInfos) => {
