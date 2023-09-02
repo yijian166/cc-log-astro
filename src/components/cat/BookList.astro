@@ -1,0 +1,39 @@
+---
+import { getBooks,  } from '../../services';
+const books = (await getBooks()).data?.books?.filter(item => item.status === 'public')
+---
+<style>
+  ul {
+      list-style-type: none;
+      padding: unset;
+    }
+  .book-nav {
+    margin-top: -10px;
+    margin-bottom: 20px;
+  }
+  .book-nav li {
+    display: inline-block;
+    margin-right: 10px;
+  }
+  .book-nav li a {
+    text-decoration: none;
+    font-size: 14px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    padding: 6px 10px;
+  }
+  .book-nav li a.active {
+    border-color:  rgb(209, 207, 207);
+  }
+  .book-nav li a:visited {
+    color: unset;
+  }
+</style>
+<section class="book-nav">
+  <ul>
+    {books.map((book) => {
+      const _path = `/p/${book.slug}`
+      return <li><a href={_path} class={Astro.url.pathname.startsWith(_path)?'active':''}>{book.name}</a></li>
+    })}
+  </ul>
+</section>

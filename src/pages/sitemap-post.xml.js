@@ -7,10 +7,10 @@ import {
   toJsonObject,
   SiteUrl,
 } from '../services';
-import sitemap from 'sitemap'
-import { createGzip } from 'zlib'
-import { Readable , Transform} from 'stream';
-export const get = async  () => {
+import sitemap from 'sitemap';
+import { createGzip } from 'zlib';
+import { Readable, Transform } from 'stream';
+export const get = async () => {
   // res.setHeader('Content-Type', 'application/xml');
   // res.setHeader('Content-Encoding', 'gzip');
   const BlogUrl = SiteUrl;
@@ -66,10 +66,7 @@ export const get = async  () => {
       },
     });
 
-    const pipeline = postStream
-      .pipe(trans)
-      .pipe(smStream)
-      .pipe(createGzip());
+    const pipeline = postStream.pipe(trans).pipe(smStream).pipe(createGzip());
     // smStream.write('/sitemap-book.xml');
     // smStream.write('/sitemap-post.xml');
     // smStream.end();
@@ -96,4 +93,4 @@ export const get = async  () => {
       statusText: 'Internal error',
     });
   }
-}
+};

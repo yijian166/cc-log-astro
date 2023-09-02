@@ -1,4 +1,6 @@
 ---
+import { ViewTransitions } from 'astro:transitions';
+import { Image } from 'astro:assets';
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
@@ -98,19 +100,30 @@ const {
 				}
 			}
 		</style>
+		<ViewTransitions />
 	</head>
 	<RichBody>
 		<Header />
 		<main>
 			<article class="post" id="article-box">
-				{heroImage?.url && (
+				{heroImage?.url ? heroImage?.width && heroImage?.height ? 
+				(
+					<Image 
+						width={heroImage?.width}
+						height={heroImage.height}
+						src={heroImage.url} 
+						alt='' 
+					/>
+				)
+					: 
+				(
 					<img
 						width={heroImage?.width}
 						height={heroImage?.height}
 						src={heroImage?.url}
 						alt=""
 					/>
-				)}
+				):null}
 				<h1 class="title">{title}</h1>
 				{pubDate && <time style="font-size:14px">{pubDate}</time>}
 				{updatedDate && <div style="font-size:14px">Last updated on <time>{updatedDate}</time></div>}

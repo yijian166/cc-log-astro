@@ -1,0 +1,71 @@
+---
+import {  getPosts } from '../../services';
+const { page, book } = Astro.props;
+// console.log('--s',page,book)
+// if(!Number.isInteger(page) || page < 1) {
+//   return new Response(null, {
+//     status: 404,
+//     statusText: 'Not found'
+//   });
+// }
+const prefix = book ? `/p/${book}`:'/articles'
+const posts = (await getPosts(page - 1,book)).data?.posts ?? [];
+const preUrl = page <= 1 ? '': `${prefix}/page/${page - 1}`
+const nextUrl = posts.length > 0 ? `${prefix}/page/${page + 1}`:''
+const isPreview = false;
+---
+<style>
+  ul {
+    list-style-type: none;
+    padding: unset;
+  }
+  ul li {
+    display: flex;
+  }
+  ul li time {
+    flex: 0 0 130px;
+    font-style: italic;
+    color: #888;
+  }
+  ul li a:visited {
+    color: #8e32dc;
+  }
+
+
+  .footer-link {
+    margin: 10px 0;
+  }
+  .footer-link a:last-child {
+    margin-left: 15px;
+  }
+  .footer-link a.mute {
+    color: #888;
+    cursor:not-allowed;
+  }
+</style>
+<section>
+  {
+    posts.length > 0 ? (
+      <ul>
+        {posts.map((post) => (
+          <li>
+            <time datetime={post.created_at}>
+              {new Date(post.created_at).toLocaleDateString('en-us', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+              })}
+            </time>
+            <a href={`/p/${post.book?.slug || post.book?.uuid}/${post.slug || post.uuid}${isPreview ? `?preview=1` : ''}`}>
+              {post.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    ):<p>No Data Yet!</p>
+  }
+</section>
+<div class="footer-link">
+  <a href={preUrl || `javascript:void`} class={preUrl?'':'mute'}>←&nbsp;Previous</a>
+  <a href={nextUrl || `javascript:void`} class={nextUrl?'':'mute'}>Next&nbsp;→</a>
+</div>

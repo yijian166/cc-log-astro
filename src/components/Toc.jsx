@@ -2,7 +2,7 @@ import { FC, useEffect, useRef } from 'react';
 // import { hashCode } from './hashCode';
 // import { BaseStyle } from '@components/frontLayout/FrontLayout';
 import style from './toc.module.less';
-const BaseStyle = style
+const BaseStyle = style;
 const PostWidth = 700 + 20 * 2; // + padding * 2
 const TocWidth = 200;
 
@@ -15,7 +15,6 @@ export const hashCode = (st) => {
   }
   return hash;
 };
-
 
 const PostToc = (props) => {
   const ulEl = useRef(null);

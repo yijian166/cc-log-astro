@@ -6,8 +6,8 @@ import {
   toJsonObject,
   SiteUrl,
 } from '../services';
-import sitemap from 'sitemap'
-import { createGzip } from 'zlib'
+import sitemap from 'sitemap';
+import { createGzip } from 'zlib';
 export const get = async () => {
   // res.setHeader('Content-Type', 'application/xml');
   // res.setHeader('Content-Encoding', 'gzip');
@@ -44,4 +44,4 @@ export const get = async () => {
       statusText: 'Internal error',
     });
   }
-}
+};

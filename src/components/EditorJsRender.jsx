@@ -67,22 +67,22 @@ const Image = (props) => {
 
     // if (width && height) {
     //   return (
-    //     <NextImage
-    //       loader={sourceType === 'qiniu' ? qiniuLoader : undefined}
+    //     <AstroImage
+    //       // loader={sourceType === 'qiniu' ? qiniuLoader : undefined}
     //       src={fullUrl}
     //       alt={caption}
     //       {...(props.data?.file?.imageProps ?? {})}
     //       width={width}
     //       height={height}
-    //       // layout="responsive"
-    //       placeholder={
-    //         props.data?.file?.imageProps?.blurDataURL ? 'blur' : 'empty'
-    //       }
-    //       sizes="
-    //         (max-width: 700px) 100vw,
-    //         1200px
-    //       "
-    //       priority={!!isFirst}
+    //       // // layout="responsive"
+    //       // placeholder={
+    //       //   props.data?.file?.imageProps?.blurDataURL ? 'blur' : 'empty'
+    //       // }
+    //       // sizes="
+    //       //   (max-width: 700px) 100vw,
+    //       //   1200px
+    //       // "
+    //       // priority={!!isFirst}
     //     />
     //   );
     // }
@@ -120,7 +120,7 @@ const HeaderLink = (props) => {
   }, []);
   function copyLink() {
     navigator?.clipboard?.writeText?.(
-      window.location.origin + window.location.pathname + `#${props.id}`
+      window.location.origin + window.location.pathname + `#${props.id}`,
     );
   }
 
@@ -287,7 +287,10 @@ const Code = (props) => {
 };
 
 const LinkTool = (props) => {
-  const title = typeof props.data?.meta?.title === 'object' ? undefined:props.data?.meta?.title
+  const title =
+    typeof props.data?.meta?.title === 'object'
+      ? undefined
+      : props.data?.meta?.title;
   if (props.isMd) {
     return (
       <p>
@@ -515,50 +518,58 @@ const EditorJsRender = (props) => {
   // const keys = Object.keys(props.data.blocks)
   return (
     <>
-    <PostToc data={props.data} />
-    <div
-      className={`${style.box} ${BaseStyle['artical']} ${
-        props.isMd ? style.isMd : ''
-      }`}
-    >
-      {(props.data?.blocks ?? []).map(({ type, data }, index) => {
-        if (typeof data !== 'object' || !data) {
-          return <div key={`${index}`}>-</div>;
-        }
-        switch (type) {
-          case 'paragraph':
-            return <Paragraph key={`${index}`} data={data} isMd={props.isMd} />;
-          case 'image':
-            if (data.file.isFirst) {
-              return null;
-            }
-            return <Image key={`${index}`} data={data} isMd={props.isMd} />;
-          case 'header':
-            return <Header key={`${index}`} data={data} isMd={props.isMd} />;
-          case 'list':
-            return <List key={`${index}`} data={data} isMd={props.isMd} />;
-          case 'code':
-            return <Code key={`${index}`} data={data} isMd={props.isMd} />;
-          case 'linkTool':
-            return <LinkTool key={`${index}`} data={data} isMd={props.isMd} />;
-          case 'delimiter':
-            return <Delimiter key={`${index}`} data={data} isMd={props.isMd} />;
-          case 'quote':
-            return <Quote key={`${index}`} data={data} isMd={props.isMd} />;
-          case 'table':
-            return <Table key={`${index}`} data={data} isMd={props.isMd} />;
-          case 'checklist':
-            return <Checklist key={`${index}`} data={data} isMd={props.isMd} />;
-          case 'embed':
-            return <Embed key={`${index}`} data={data} isMd={props.isMd} />;
-          case 'warning':
-            return <Warning key={`${index}`} data={data} isMd={props.isMd} />;
-          case 'md':
-            return <Md key={`${index}`} data={data} isMd={props.isMd} />;
-        }
-        return <div key={`${index}`}>TODO {type}</div>;
-      })}
-    </div>
+      <PostToc data={props.data} />
+      <div
+        className={`${style.box} ${BaseStyle['artical']} ${
+          props.isMd ? style.isMd : ''
+        }`}
+      >
+        {(props.data?.blocks ?? []).map(({ type, data }, index) => {
+          if (typeof data !== 'object' || !data) {
+            return <div key={`${index}`}>-</div>;
+          }
+          switch (type) {
+            case 'paragraph':
+              return (
+                <Paragraph key={`${index}`} data={data} isMd={props.isMd} />
+              );
+            case 'image':
+              if (data.file.isFirst) {
+                return null;
+              }
+              return <Image key={`${index}`} data={data} isMd={props.isMd} />;
+            case 'header':
+              return <Header key={`${index}`} data={data} isMd={props.isMd} />;
+            case 'list':
+              return <List key={`${index}`} data={data} isMd={props.isMd} />;
+            case 'code':
+              return <Code key={`${index}`} data={data} isMd={props.isMd} />;
+            case 'linkTool':
+              return (
+                <LinkTool key={`${index}`} data={data} isMd={props.isMd} />
+              );
+            case 'delimiter':
+              return (
+                <Delimiter key={`${index}`} data={data} isMd={props.isMd} />
+              );
+            case 'quote':
+              return <Quote key={`${index}`} data={data} isMd={props.isMd} />;
+            case 'table':
+              return <Table key={`${index}`} data={data} isMd={props.isMd} />;
+            case 'checklist':
+              return (
+                <Checklist key={`${index}`} data={data} isMd={props.isMd} />
+              );
+            case 'embed':
+              return <Embed key={`${index}`} data={data} isMd={props.isMd} />;
+            case 'warning':
+              return <Warning key={`${index}`} data={data} isMd={props.isMd} />;
+            case 'md':
+              return <Md key={`${index}`} data={data} isMd={props.isMd} />;
+          }
+          return <div key={`${index}`}>TODO {type}</div>;
+        })}
+      </div>
     </>
   );
 };

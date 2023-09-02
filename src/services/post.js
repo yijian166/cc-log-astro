@@ -65,7 +65,7 @@ export const getBooks = () => {
           id,name,slug,status, 
         }
       }`,
-    }
+    },
   );
 };
 
@@ -79,7 +79,7 @@ export const getPostCount = async (bookId = -1) => {
     },
     {
       returnText: true,
-    }
+    },
   );
   return count.data ?? 0;
 };
@@ -105,8 +105,8 @@ export const getPosts = (start = 0, bookUUID = '') => {
     {
       query: `query {
         posts(limit: ${limit},start:${
-        start * limit
-      },sort: "created_at:desc", where:{
+          start * limit
+        },sort: "created_at:desc", where:{
         status: "published",
         ${bookUUID ? `book: { slug: "${bookUUID}" }` : ''}
       }) {
@@ -121,7 +121,7 @@ export const getPosts = (start = 0, bookUUID = '') => {
 					created_at
         }
       }`,
-    }
+    },
   );
 };
 const getImgInfo = async (url) => {
@@ -158,24 +158,24 @@ const findIframeTagInMd = (md, template) => {
   const reg = !template
     ? new RegExp(
         `\\[iframe[^\\]]*?src=".*?"[^\\]]*?\\](.*?)\\[\\/iframe\\]`,
-        'sg'
+        'sg',
       )
     : new RegExp(
         `\\[iframe[^\\]]*?template=“${template}”[^\\]]*?\\](.*?)\\[\\/iframe\\]`,
-        'sg'
+        'sg',
       );
   return md.match(reg)?.reduce((pre, stWithTag) => {
     // console.log('stWithTag:', stWithTag);
     const mdContent = stWithTag.match(
-      /(?<=\[iframe[^\]]*\])(.*?)(?=\[\/iframe\])/gs
+      /(?<=\[iframe[^\]]*\])(.*?)(?=\[\/iframe\])/gs,
     )?.[0];
     // console.log('md:\n', mdContent);
     const code = stWithTag.match(
-      /(?<=\[iframe[^\]]*\]\n```\w*?\n)(.*?)(?=```\n\[\/iframe\])/gs
+      /(?<=\[iframe[^\]]*\]\n```\w*?\n)(.*?)(?=```\n\[\/iframe\])/gs,
     )?.[0];
     // console.log('code:\n', code);
     const assets = stWithTag.match(
-      /(?<=^\[iframe[^\]]*?assets=")(.*?)(?="[^\]]*?\])/g
+      /(?<=^\[iframe[^\]]*?assets=")(.*?)(?="[^\]]*?\])/g,
     )?.[0];
     // console.log('assetsMatch:\n', assetsMatch);
     pre.push({
@@ -195,10 +195,10 @@ const insertIframe = (md, htmlOrUrl, { hideContent, src }) => {
   if (src) {
     return `\n\n<div class="iframe-box">
   <iframe class="Threejs-iframe" sandbox="allow-scripts allow-same-origin" loading="lazy" src="${src}" ></iframe></div>\n\n${
-      hideContent
-        ? `<div class="hide-sb-box hide" data-btn-box="hideSb"><button class="hide-sb-btn" data-btn="hideSb">show code</button>\n${_md}</div>\n`
-        : `${_md}`
-    }`;
+    hideContent
+      ? `<div class="hide-sb-box hide" data-btn-box="hideSb"><button class="hide-sb-btn" data-btn="hideSb">show code</button>\n${_md}</div>\n`
+      : `${_md}`
+  }`;
   }
   const buff = Buffer.from(htmlOrUrl, 'utf-8');
   // encode buffer as Base64
@@ -223,7 +223,7 @@ const handleMdIframeTag = (md) => {
         matchInfos?.forEach(({ stWithTag, mdContent, code, ...rest }) => {
           _content = _content.replace(
             stWithTag,
-            insertIframe(mdContent, '', rest)
+            insertIframe(mdContent, '', rest),
           );
         });
         return _content;
@@ -247,7 +247,7 @@ const handleMdIframeTag = (md) => {
                 rest.assets
                   ?.map(
                     (item) =>
-                      `<script src='/assets/threejs/libs/${item}'></script>`
+                      `<script src='/assets/threejs/libs/${item}'></script>`,
                   )
                   .join('\n') ?? ''
               }
@@ -272,7 +272,7 @@ const handleMdIframeTag = (md) => {
           `;
           _content = _content.replace(
             stWithTag,
-            insertIframe(mdContent, html(code), rest)
+            insertIframe(mdContent, html(code), rest),
           );
         });
         return _content;
@@ -296,7 +296,7 @@ const handleMdIframeTag = (md) => {
                 rest.assets
                   ?.map(
                     (item) =>
-                      `<script src='/assets/threejs/libs/${item}'></script>`
+                      `<script src='/assets/threejs/libs/${item}'></script>`,
                   )
                   .join('\n') ?? ''
               }
@@ -325,7 +325,7 @@ const handleMdIframeTag = (md) => {
           `;
           _content = _content.replace(
             stWithTag,
-            insertIframe(mdContent, html(code), rest)
+            insertIframe(mdContent, html(code), rest),
           );
         });
         return _content;
@@ -349,7 +349,7 @@ const handleMdIframeTag = (md) => {
                 rest.assets
                   ?.map(
                     (item) =>
-                      `<script src='/assets/threejs/libs/${item}'></script>`
+                      `<script src='/assets/threejs/libs/${item}'></script>`,
                   )
                   .join('\n') ?? ''
               }
@@ -380,7 +380,7 @@ const handleMdIframeTag = (md) => {
 
           _content = _content.replace(
             stWithTag,
-            insertIframe(mdContent, html(code), rest)
+            insertIframe(mdContent, html(code), rest),
           );
         });
         return _content;
@@ -403,7 +403,7 @@ export const getPostDetail = async (postUUID) => {
       _where: { _or: [{ uuid: postUUID }, { slug: postUUID }] },
       _limit: 1,
     },
-    {}
+    {},
   );
 
   // console.log('--getPostDetail',posts)
@@ -592,8 +592,8 @@ export const getPostsWithGraphql = (start = 0, limit = 50) => {
     {
       query: `query {
         posts(limit: ${limit},start:${
-        start * start
-      },sort: "created_at:desc", where:{status: "published"}) {
+          start * start
+        },sort: "created_at:desc", where:{status: "published"}) {
           slug,
           uuid,
           status,
@@ -607,6 +607,6 @@ export const getPostsWithGraphql = (start = 0, limit = 50) => {
           updated_at
         }
       }`,
-    }
+    },
   );
 };

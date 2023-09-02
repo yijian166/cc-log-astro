@@ -4,27 +4,27 @@
   License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
  */
 
-@config : {
+@config: {
   bgColor: #fff;
-  fontColor: #444; 
-  pColor:#444;  
+  fontColor: #444;
+  pColor: #444;
   fontColorMute: #666;
-  fontColorMute2:#eee;
+  fontColorMute2: #eee;
   colorPrimary: #1890ff;
   colorPrimaryDarken: darken(#1890ff, 10%);
-  colorPrimaryLighten: lighten(#1890ff, 10%); 
-}
+  colorPrimaryLighten: lighten(#1890ff, 10%);
+};
 body {
-	font-family: Verdana, sans-serif;
-	margin: auto;
-	padding: 20px;
-	max-width: 65ch;
-	text-align: left;
-	background-color: #fff;
-	word-wrap: break-word;
-	overflow-wrap: break-word;
-	line-height: 1.5;
-	color: #444;
+  font-family: Verdana, sans-serif;
+  margin: auto;
+  padding: 20px;
+  max-width: 65ch;
+  text-align: left;
+  background-color: #fff;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.5;
+  color: #444;
 }
 h1,
 h2,
@@ -34,57 +34,56 @@ h5,
 h6,
 strong,
 b {
-	color: #222;
+  color: #222;
 }
 a {
-	color: #3273dc;
+  color: #3273dc;
 }
 nav a {
-	margin-right: 10px;
+  margin-right: 10px;
 }
 textarea {
-	width: 100%;
-	font-size: 16px;
+  width: 100%;
+  font-size: 16px;
 }
 input {
-	font-size: 16px;
+  font-size: 16px;
 }
 content {
-	line-height: 1.6;
+  line-height: 1.6;
 }
 table {
-	width: 100%;
+  width: 100%;
 }
 img {
-	max-width: 100%;
-	height: auto;
+  max-width: 100%;
+  height: auto;
 }
 code {
-	padding: 2px 5px;
-	background-color: #f2f2f2;
+  padding: 2px 5px;
+  background-color: #f2f2f2;
 }
 pre {
-	padding: 1rem;
+  padding: 1rem;
 }
 pre > code {
-	all: unset;
+  all: unset;
 }
 blockquote {
-	border: 1px solid #999;
-	color: #222;
-	padding: 2px 0px 2px 20px;
-	margin: 0px;
-	font-style: italic;
+  border: 1px solid #999;
+  color: #222;
+  padding: 2px 0px 2px 20px;
+  margin: 0px;
+  font-style: italic;
 }
 #intro {
-	display: none;
+  display: none;
 }
-
 
 #toc {
   // display: none;
-	visibility: hidden;
-	height: 0;;
+  visibility: hidden;
+  height: 0;
   & + ul {
     position: fixed;
     top: 95px;
@@ -99,9 +98,9 @@ blockquote {
     ul {
       padding-left: 10px;
       margin-left: 0;
-      
     }
-    ul,li {
+    ul,
+    li {
       list-style: none;
     }
     li {
@@ -123,13 +122,10 @@ blockquote {
 
 @media (prefers-color-scheme: dark) {
   body {
-    // background-color: #222; 
-  } 
+    // background-color: #222;
+  }
   #toc {
-  
     & + ul {
-    
-  
       a {
         // color: #d6d6d6;
 
@@ -142,19 +138,17 @@ blockquote {
 }
 @media screen and (max-width: 1650px) {
   #toc {
-  
     & + ul {
       margin-left: 35ch;
-    } 
+    }
   }
 }
 @media screen and (max-width: 1200px) {
   #toc {
-  
     & + ul {
       // display: none;
-			visibility: hidden;
-    } 
+      visibility: hidden;
+    }
   }
 }
 a {
@@ -169,18 +163,18 @@ a {
 //   overflow-y: auto;
 // }
 
-
 table {
-	max-width: 100%;
-	min-width: 60%;;
-	border-collapse: collapse;
-	th,td {
-		border: 1px solid @config[fontColorMute2];
-		padding: 10px;
-	}
-	@media (max-width:500px) {
-		& {
-			width: 100%;
-		}
-	}
+  max-width: 100%;
+  min-width: 60%;
+  border-collapse: collapse;
+  th,
+  td {
+    border: 1px solid @config[fontColorMute2];
+    padding: 10px;
+  }
+  @media (max-width: 500px) {
+    & {
+      width: 100%;
+    }
+  }
 }

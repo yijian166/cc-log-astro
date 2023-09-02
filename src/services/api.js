@@ -10,7 +10,7 @@ export const apiRequestV2WithThrow = async (
   url,
   method,
   param = {},
-  option = {}
+  option = {},
 ) => {
   const result = await apiRequestV2(url, method, param, option);
   if (result.error) {

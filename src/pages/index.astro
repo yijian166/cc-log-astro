@@ -1,10 +1,13 @@
 ---
+import { Image } from 'astro:assets';
+import { ViewTransitions } from 'astro:transitions';
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import RichBody from '../components/RichBody.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
 import {DefaultSiteFeatureImage} from '../services'
+export const prerender = true;
 ---
 
 <!DOCTYPE html>
@@ -12,11 +15,12 @@ import {DefaultSiteFeatureImage} from '../services'
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} image={DefaultSiteFeatureImage.url}/>
 		<meta name="google-site-verification" content="sT6LQKFycckoOt4dsf8DTmwDQBGNkZNz4O1zLTVJ0uo" />
+		<ViewTransitions />
 	</head>
 	<RichBody>
 		<Header title={SITE_TITLE} />
 		<main>
-			<img
+			<Image
 				width={DefaultSiteFeatureImage?.width}
 				height={DefaultSiteFeatureImage?.height}
 				src={DefaultSiteFeatureImage?.url}
