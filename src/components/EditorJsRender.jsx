@@ -2,12 +2,12 @@ import { FC, useLayoutEffect, useEffect, useState } from 'react';
 import style from './editorJsRender.module.less';
 // import { BaseStyle } from '@components/frontLayout/FrontLayout';
 import TurndownService from 'turndown';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import * as turndownPluginGfm from 'turndown-plugin-gfm';
 // import prismjs from 'prismjs';
 import { hashCode } from '../services';
 import Markdown from './Markdown';
 import PostToc from './Toc';
+import { CodeBox } from './CodeBox';
 const BaseStyle = style;
 // import NextImage from 'next/image';
 // import 'prismjs/themes/prism.css';
@@ -253,7 +253,7 @@ const Code = (props) => {
     );
   }
   return (
-    <SyntaxHighlighter
+    <CodeBox
       children={props.data.text ?? ''}
       // children={String(children).replace(/\n$/, '')}
       // style={dark}

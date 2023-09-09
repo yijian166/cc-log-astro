@@ -1,10 +1,10 @@
 // import React from 'react'
 import ReactMarkdown from 'react-markdown';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import toc from 'remark-toc';
 import slug from 'remark-slug';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
+import { CodeBox } from './CodeBox';
 // import prism from 'remark-prism';
 // import 'prismjs/themes/prism.css';
 // import dark from 'react-syntax-highlighter/dist/cjs/styles/prism/dark';
@@ -42,7 +42,7 @@ export default ({ md }) => {
           const match = /language-(\w+)/.exec(className || '');
           console.log('---', match, className);
           return !inline ? (
-            <SyntaxHighlighter
+            <CodeBox
               children={String(children).replace(/\n$/, '')}
               // style={dark}
               language={match?.[1]}

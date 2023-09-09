@@ -149,20 +149,30 @@ const imgH = heroImage?.height ?  imgRatio ? imgW / imgRatio :  heroImage.height
 	</RichBody>
 </html>
 <script>
-  // Processed! Bundled! TypeScript-supported!
-  // Importing local scripts and Node modules works.
+	import copy from 'copy-to-clipboard';
+	// Find our component DOM on the page.
+	const buttons = document.querySelectorAll('[data-cp-button]');
+	// Add event listeners to fire confetti when a button is clicked.
+	buttons.forEach((button) => {
+		button.setAttribute('style','display: block;')
+		button.addEventListener('click', () => {
+			copy(button.getAttribute('data-code'))
+		});
+	});
+
+	// Processed! Bundled! TypeScript-supported!
+	// Importing local scripts and Node modules works.
 	// const iframeBoxs  = document.querySelectorAll('div.iframe-box');
 	// console.log('--iframeBoxs',iframeBoxs)
 
 	// const hideSbBtns  = document.querySelectorAll('div.hide-sb-btn');
 	// console.log('--hideSbBtns',hideSbBtns)
 	document.getElementById('article-box')?.addEventListener('click',function(e) {
-		if(e.target.dataset.btn === 'hideSb') {
-			if(e.target.closest('div').dataset.btnBox="hideSb") {
-				e.target.innerHTML = e.target.closest('div').classList.contains('hide') ? 'hide code':'show code'
-				e.target.closest('div').classList.toggle('hide')
-			}
+	if(e.target.dataset.btn === 'hideSb') {
+		if(e.target.closest('div').dataset.btnBox="hideSb") {
+			e.target.innerHTML = e.target.closest('div').classList.contains('hide') ? 'hide code':'show code'
+			e.target.closest('div').classList.toggle('hide')
 		}
+	}
 	})
-
 </script>

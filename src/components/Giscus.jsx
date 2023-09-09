@@ -13,7 +13,7 @@ export default function Giscus() {
       reactionsEnabled="1"
       emitMetadata="1"
       inputPosition="top"
-      theme="preferred_color_scheme"
+      theme="light"
       lang="zh-CN"
       loading="lazy"
     />
