@@ -5,6 +5,7 @@ import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import RichBody from '../components/RichBody.astro';
+import Giscus from '../components/Giscus';
 export interface Props {
 	title: string;
 	description: string;
@@ -21,6 +22,10 @@ export interface Props {
 const {
 	title, description, pubDate, updatedDate, heroImage,tags
 } = Astro.props;
+const maxWidth = 1000
+const imgRatio = heroImage.width &&  heroImage?.height ?  heroImage.width /  heroImage.height : undefined;
+const imgW = heroImage?.width ? Math.min(maxWidth, heroImage.width) : undefined
+const imgH = heroImage?.height ?  imgRatio ? imgW / imgRatio :  heroImage.height: undefined
 ---
 
 <html>
@@ -29,8 +34,8 @@ const {
 			title={title} 
 			description={description} 
 			image={heroImage?.url??''} 
-			imageWidth={heroImage?.width} 
-			imageHeight={heroImage?.height}
+			imageWidth={imgW} 
+			imageHeight={imgH}
 			tags={tags}
 		/>
 		<style>
@@ -43,6 +48,11 @@ const {
 				margin: 1rem 0;
 			}
 
+			.comment {
+				margin-top:40px;
+
+			}
+			
 
 	
 		</style>
@@ -106,11 +116,11 @@ const {
 		<Header />
 		<main>
 			<article class="post" id="article-box">
-				{heroImage?.url ? heroImage?.width && heroImage?.height ? 
+				{heroImage?.url ? imgW && imgH ? 
 				(
 					<Image 
-						width={heroImage?.width}
-						height={heroImage.height}
+						width={imgW}
+						height={imgH}
 						src={heroImage.url} 
 						alt='' 
 					/>
@@ -118,8 +128,8 @@ const {
 					: 
 				(
 					<img
-						width={heroImage?.width}
-						height={heroImage?.height}
+						width={imgW}
+						height={imgH}
 						src={heroImage?.url}
 						alt=""
 					/>
@@ -130,8 +140,12 @@ const {
 				<hr/>
 				<slot />
 			</article>
+			<section class="comment">
+				<Giscus client:load />
+			</section>
 		</main>
 		<Footer />
+
 	</RichBody>
 </html>
 <script>
