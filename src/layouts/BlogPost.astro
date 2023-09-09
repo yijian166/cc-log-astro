@@ -23,7 +23,7 @@ const {
 	title, description, pubDate, updatedDate, heroImage,tags
 } = Astro.props;
 const maxWidth = 1000
-const imgRatio = heroImage.width &&  heroImage?.height ?  heroImage.width /  heroImage.height : undefined;
+const imgRatio = heroImage?.width &&  heroImage?.height ?  heroImage.width /  heroImage.height : undefined;
 const imgW = heroImage?.width ? Math.min(maxWidth, heroImage.width) : undefined
 const imgH = heroImage?.height ?  imgRatio ? imgW / imgRatio :  heroImage.height: undefined
 ---
