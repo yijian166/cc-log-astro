@@ -30,6 +30,9 @@
   box-shadow: (31, 35, 40, 0.04) 0px 1px 0px 0px;
   background-color: rgb(235, 236, 240)
 }
+.codeBox:hover .btn:global(.on) {
+  display: block!important;
+}
 svg {
   color: rgb(101, 109, 118);
   fill: rgb(101, 109, 118);

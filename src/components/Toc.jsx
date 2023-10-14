@@ -37,7 +37,7 @@ const PostToc = (props) => {
   return (
     <>
       <h2 id="toc">toc</h2>
-      <ul className={style.toc} ref={ulEl}>
+      <ul className={style.toc + ' toc'} ref={ulEl}>
         {(props.data?.blocks ?? []).map(({ type, data }, index) => {
           if (typeof data !== 'object' || !data || type !== 'header') {
             return null;

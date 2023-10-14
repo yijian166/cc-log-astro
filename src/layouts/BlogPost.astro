@@ -1,6 +1,6 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
@@ -118,10 +118,11 @@ const imgH = heroImage?.height ?  imgRatio ? imgW / imgRatio :  heroImage.height
 			<article class="post" id="article-box">
 				{heroImage?.url ? imgW && imgH ? 
 				(
-					<Image 
+					<Picture 
 						width={imgW}
 						height={imgH}
 						src={heroImage.url} 
+						formats={['avif', 'webp']}
 						alt='' 
 					/>
 				)
@@ -154,7 +155,8 @@ const imgH = heroImage?.height ?  imgRatio ? imgW / imgRatio :  heroImage.height
 	const buttons = document.querySelectorAll('[data-cp-button]');
 	// Add event listeners to fire confetti when a button is clicked.
 	buttons.forEach((button) => {
-		button.setAttribute('style','display: block;')
+		// button.setAttribute('style','display: block;')
+		button.classList.add('on') 
 		button.addEventListener('click', () => {
 			copy(button.getAttribute('data-code'))
 		});

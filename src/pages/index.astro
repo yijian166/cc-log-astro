@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import { ViewTransitions } from 'astro:transitions';
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
@@ -24,10 +24,12 @@ export const prerender = true;
 	<RichBody>
 		<Header title={SITE_TITLE} />
 		<main>
-			<Image
+			<Picture
 				width={imgW}
 				height={imgH}
 				src={DefaultSiteFeatureImage?.url}
+				formats={['avif', 'webp']}
+				densities={[1.5, 2]} 
 				alt=""
 			/>
 			<p>
