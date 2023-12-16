@@ -1,4 +1,4 @@
-import { FC, useLayoutEffect, useEffect, useState } from 'react';
+import { useLayoutEffect, useEffect, useState } from 'react';
 import style from './editorJsRender.module.less';
 // import { BaseStyle } from '@components/frontLayout/FrontLayout';
 import TurndownService from 'turndown';

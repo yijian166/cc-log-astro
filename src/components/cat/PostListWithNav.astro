@@ -9,7 +9,13 @@ const { page, book } = Astro.props;
 //   });
 // }
 const prefix = book ? `/p/${book}`:'/articles'
-const posts = (await getPosts(page - 1,book)).data?.posts ?? [];
+let posts = []
+try {
+  posts = (await getPosts(page - 1,book)).data?.posts ?? [];
+} catch (error) {
+  console.error('getPosts error',error)
+}
+
 const preUrl = page <= 1 ? '': `${prefix}/page/${page - 1}`
 const nextUrl = posts.length > 0 ? `${prefix}/page/${page + 1}`:''
 const isPreview = false;

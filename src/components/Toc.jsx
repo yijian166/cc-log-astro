@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 // import { hashCode } from './hashCode';
 // import { BaseStyle } from '@components/frontLayout/FrontLayout';
 import style from './toc.module.less';
