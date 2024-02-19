@@ -13,4 +13,5 @@ export default defineConfig({
   integrations: [mdx(), sitemap(), react()],
   output: 'server',
   adapter: node({ mode: 'middleware' }),
+  prefetch: true,
 });

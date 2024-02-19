@@ -7,10 +7,10 @@ import Footer from '../components/Footer.astro';
 import RichBody from '../components/RichBody.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../config';
 import {DefaultSiteFeatureImage} from '../services'
-const maxWidth = 1000
-const imgRatio = DefaultSiteFeatureImage.width && DefaultSiteFeatureImage.height ?  DefaultSiteFeatureImage.width / DefaultSiteFeatureImage.height : undefined;
-const imgW = DefaultSiteFeatureImage?.width ? Math.min(maxWidth, DefaultSiteFeatureImage.width) : undefined
-const imgH = DefaultSiteFeatureImage?.height ?  imgRatio ? imgW / imgRatio : DefaultSiteFeatureImage.height: undefined
+// const maxWidth = 1000
+// const imgRatio = DefaultSiteFeatureImage.width && DefaultSiteFeatureImage.height ?  DefaultSiteFeatureImage.width / DefaultSiteFeatureImage.height : undefined;
+// const imgW = DefaultSiteFeatureImage?.width ? Math.min(maxWidth, DefaultSiteFeatureImage.width) : undefined
+// const imgH = DefaultSiteFeatureImage?.height ?  imgRatio ? imgW / imgRatio : DefaultSiteFeatureImage.height: undefined
 export const prerender = true;
 ---
 
@@ -25,8 +25,7 @@ export const prerender = true;
 		<Header title={SITE_TITLE} />
 		<main>
 			<Picture
-				width={imgW}
-				height={imgH}
+				inferSize
 				src={DefaultSiteFeatureImage?.url}
 				formats={['avif', 'webp']}
 				densities={[1.5, 2]} 

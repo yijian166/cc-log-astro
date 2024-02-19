@@ -119,8 +119,9 @@ const imgH = heroImage?.height ?  imgRatio ? imgW / imgRatio :  heroImage.height
 				{heroImage?.url ? imgW && imgH ? 
 				(
 					<Picture 
-						width={imgW}
-						height={imgH}
+						// width={imgW}
+						// height={imgH}
+						inferSize
 						src={heroImage.url} 
 						formats={['avif', 'webp']}
 						alt='' 

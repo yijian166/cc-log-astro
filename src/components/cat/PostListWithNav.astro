@@ -62,7 +62,7 @@ const isPreview = false;
                 day: 'numeric',
               })}
             </time>
-            <a href={`/p/${post.book?.slug || post.book?.uuid}/${post.slug || post.uuid}${isPreview ? `?preview=1` : ''}`}>
+            <a href={`/p/${post.book?.slug || post.book?.uuid}/${post.slug || post.uuid}${isPreview ? `?preview=1` : ''}`} data-astro-prefetch="hover">
               {post.name}
             </a>
           </li>
@@ -72,6 +72,6 @@ const isPreview = false;
   }
 </section>
 <div class="footer-link">
-  <a href={preUrl || `javascript:void`} class={preUrl?'':'mute'}>←&nbsp;Previous</a>
-  <a href={nextUrl || `javascript:void`} class={nextUrl?'':'mute'}>Next&nbsp;→</a>
+  <a href={preUrl || `javascript:void`} class={preUrl?'':'mute'} data-astro-prefetch="viewport">←&nbsp;Previous</a>
+  <a href={nextUrl || `javascript:void`} class={nextUrl?'':'mute'} data-astro-prefetch="viewport">Next&nbsp;→</a>
 </div>
